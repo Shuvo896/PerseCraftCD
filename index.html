@@ -14,14 +14,28 @@
     </div>
 
     <div class="mode-selector">
-      <button class="mode active" id="mode-lr">Left Recursion Elimination</button>
+      <button class="mode active" id="mode-lr">
+        Left Recursion Elimination
+      </button>
       <span class="divider"></span>
       <button class="mode" id="mode-lf">Left Factoring</button>
       <span class="divider"></span>
       <button class="mode" id="mode-ff">First & Follow Set</button>
       <div class="help">
         <span class="help-icon">?</span>
-        <div class="tooltip">Write it like this: A->aB|c (No spaces around '->' or '|')</div>
+        <div class="tooltip">
+          Input grammar rules one per line.<br />
+          Use format: <strong>A->aB|c</strong> (no spaces around
+          <code>-></code> or <code>|</code>) for Left Recursion mode.<br />
+          For Left Factoring and First & Follow modes, spaces around
+          <code>-></code> and <code>|</code> are allowed.<br />
+          LHS must be a single uppercase letter (A-Z). Use <code>eps</code> for
+          epsilon (empty string).<br />
+          Example:<br />
+          <code>S->Sa|b</code> (Left Recursion)<br />
+          <code>A -> aB | aC | b</code> (Left Factoring)<br />
+          <code>S -> A B | C</code> (First &amp; Follow)
+        </div>
       </div>
     </div>
 
@@ -30,7 +44,12 @@
 
       <button class="craft-btn" id="craftBtn" type="button">Craft</button>
 
-      <textarea class="output-box" id="outputBox" placeholder="Output" disabled></textarea>
+      <textarea
+        class="output-box"
+        id="outputBox"
+        placeholder="Output"
+        disabled
+      ></textarea>
     </div>
     <footer>
       <div><h1>© 2025 PerseCraft. All Rights Reserved.</h1></div>
