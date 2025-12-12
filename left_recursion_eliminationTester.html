@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Left Recursion Elimination</title>
+</head>
+<body>
+
+<h2>Left Recursion Elimination Calculator (Browser JS)</h2>
+
+<p>Enter grammar rules. Use single uppercase letters for non-terminals. Use <b>eps</b> for epsilon.</p>
+
+<textarea id="inputBox" rows="10" cols="60" placeholder="Example:
+S -> S a | b
+A -> A c | d
+END"></textarea>
+
+<br><br>
+<button onclick="runLeftRecursion()">Run</button>
+
+<h3>Output:</h3>
+<pre id="outputBox"></pre>
+
+<script>
+function parseLRGrammar(grammarStr) {
+    const grammar = {};
+    const lines = grammarStr.split(/\r?\n/);
+    for (let raw of lines) {
+        const line = raw.trim();
+        if (line === "" || line.toUpperCase() === "END") continue;
+        const arrow = line.indexOf("->");
+        if (arrow === -1) throw "Missing '->' in: " + line;
+        const lhs = line.slice(0, arrow).trim();
+        const rhsText = line.slice(arrow + 2).trim();
+        if (!/^[A-Z]$/.test(lhs)) throw "LHS must be a single uppercase letter: " + lhs;
+        const rhs = rhsText.split("|").map(s => s.trim()).map(s => s === "ϵ" ? "eps" : s);
+        grammar[lhs] = rhs;
+    }
+    return grammar;
+}
+
+function formatLRGrammar(grammar) {
+    let out = "";
+    for (const A in grammar) {
+        out += A + " -> " + grammar[A].join(" | ") + "\n";
+    }
+    return out;
+}
+
+let LRcounter = 0;
+function newLRNT() {
+    LRcounter++;
+    return "X" + LRcounter;
+}
+
+function eliminateDirectLR(grammar, A, NTs) {
+    const prods = grammar[A];
+    const rec = [];
+    const nonRec = [];
+    for (const p of prods) {
+        const parts = p.split(" ").filter(Boolean);
+        if (parts[0] === A) rec.push(parts.slice(1).join(" ") || "eps");
+        else nonRec.push(p || "eps");
+    }
+    if (rec.length === 0) return;
+
+    const A2 = newLRNT();
+    NTs.push(A2);
+
+    const newA = [];
+    for (const p of nonRec) {
+        if (p === "eps") newA.push(A2);
+        else newA.push((p + " " + A2).trim());
+    }
+    grammar[A] = newA;
+
+    const newA2 = ["eps"];
+    for (const r of rec) {
+        if (r === "eps") newA2.push(A2);
+        else newA2.push((r + " " + A2).trim());
+    }
+    grammar[A2] = newA2;
+}
+
+function eliminateLeftRecursion(grammarStr) {
+    LRcounter = 0;
+    const G = parseLRGrammar(grammarStr);
+    const NTs = Object.keys(G);
+
+    for (let i = 0; i < NTs.length; i++) {
+        const Ai = NTs[i];
+
+        for (let j = 0; j < i; j++) {
+            const Aj = NTs[j];
+            const newP = [];
+            const other = [];
+
+            for (const p of G[Ai]) {
+                const parts = p.split(" ").filter(Boolean);
+                if (parts[0] === Aj) {
+                    const beta = parts.slice(1).join(" ");
+                    for (const Ajp of G[Aj]) {
+                        const AJP = Ajp === "eps" ? "eps" : Ajp;
+                        if (AJP === "eps") {
+                            if (beta) newP.push(beta);
+                            else newP.push("eps");
+                        } else {
+                            if (beta) newP.push((AJP + " " + beta).trim());
+                            else newP.push(AJP);
+                        }
+                    }
+                } else {
+                    other.push(p);
+                }
+            }
+            G[Ai] = [...other, ...newP];
+        }
+
+        eliminateDirectLR(G, Ai, NTs);
+    }
+
+    return formatLRGrammar(G);
+}
+
+function runLeftRecursion() {
+    const input = document.getElementById("inputBox").value;
+    const out = document.getElementById("outputBox");
+    try {
+        const result = eliminateLeftRecursion(input);
+        out.textContent = result;
+    } catch (e) {
+        out.textContent = "Error: " + e;
+    }
+}
+</script>
+
+</body>
+</html>

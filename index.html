@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PerseCraft</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="navbar">
+      <div class="logo">
+        <img src="images/logo.png" alt="logo" />
+      </div>
+    </div>
+
+    <div class="mode-selector">
+      <button class="mode active" id="mode-lr">Left Recursion Elimination</button>
+      <span class="divider"></span>
+      <button class="mode" id="mode-lf">Left Factoring</button>
+      <span class="divider"></span>
+      <button class="mode" id="mode-ff">First & Follow Set</button>
+      <div class="help">
+        <span class="help-icon">?</span>
+        <div class="tooltip">Write it like this: A->aB|c (No spaces around '->' or '|')</div>
+      </div>
+    </div>
+
+    <div class="container">
+      <textarea class="input-box" id="inputBox" placeholder="Input"></textarea>
+
+      <button class="craft-btn" id="craftBtn" type="button">Craft</button>
+
+      <textarea class="output-box" id="outputBox" placeholder="Output" disabled></textarea>
+    </div>
+    <footer>
+      <div><h1>© 2025 PerseCraft. All Rights Reserved.</h1></div>
+    </footer>
+    <script src="lr.js"></script>
+    <script src="lf.js"></script>
+    <script src="fftable.js"></script>
+    <script src="index.js"></script>
+  </body>
+</html>

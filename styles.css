@@ -1,0 +1,226 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --base-color1: #2c2e31;
+  --base-color2: #494c50;
+  --body-color: #323437;
+  --text-color: #ffffff;
+  --selection: #c35b00;
+  --shadow-soft: -1px 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+body {
+  background: var(--body-color);
+  font-family: Arial, sans-serif;
+  color: var(--text-color);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* NAVBAR */
+.navbar {
+  width: 100%;
+  height: 10rem;
+  padding: 12px 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo img {
+  width: 10rem;
+  margin-left: 4rem;
+}
+
+/* HELP TOOLTIP */
+/* MODE SELECTOR */
+.mode-selector {
+  background: var(--base-color1);
+  border-radius: 6px;
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  box-shadow: var(--shadow-soft);
+}
+
+/* Buttons */
+.mode {
+  background: none;
+  border: none;
+  padding: 6px 12px;
+  color: var(--text-color);
+  cursor: pointer;
+  font-size: 14px;
+  transition: color 0.2s ease;
+}
+.mode.active {
+  color: var(--selection);
+}
+
+.mode:hover:not(.active) {
+  color: var(--selection);
+}
+
+/* Divider */
+.divider {
+  width: 2px;
+  height: 22px;
+  background: var(--base-color2);
+  border-radius: 4px;
+  opacity: 0.6;
+}
+
+/* Help Icon */
+.help {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.help-icon {
+  font-size: 20px;
+  cursor: pointer;
+  padding: 3px 6px;
+  border-radius: 6px;
+  transition: 0.2s ease;
+}
+
+.help-icon:hover {
+  color: var(--selection);
+}
+
+/* Tooltip */
+.tooltip {
+  position: absolute;
+  top: 32px;
+  left: -20px;
+  padding: 8px 10px;
+  background: var(--base-color2);
+  border-radius: 6px;
+  font-size: 13px;
+  color: var(--text-color);
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.2s ease;
+  white-space: nowrap;
+}
+
+.help:hover .tooltip {
+  opacity: 1;
+}
+
+/* CONTENT */
+.container {
+  width: min(1100px, 95%);
+  margin-top: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+}
+
+textarea {
+  width: 100%;
+  min-height: 200px;
+  background: var(--base-color1);
+  border: none;
+  padding: 15px;
+  resize: vertical;
+  font-size: 16px;
+  color: var(--text-color);
+  border-radius: 6px;
+  outline: none;
+  box-shadow: var(--shadow-soft);
+}
+
+.craft-btn {
+  background: var(--selection);
+  color: #fff;
+  font-size: 18px;
+  padding: 12px 35px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+  width: 12rem;
+  box-shadow: var(--shadow-soft);
+}
+
+.craft-btn:hover {
+  opacity: 0.9;
+}
+
+/* FOOTER */
+footer h1 {
+  margin: 50px 0;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 1px;
+  text-align: center;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  /* Stabilized Navbar Transition */
+  .navbar {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* Set a stable minimum height for the mobile navbar */
+    min-height: 100px;
+    padding: 15px 10px;
+  }
+
+  .logo img {
+    width: 120px;
+    margin-left: 0;
+    margin-bottom: 10px;
+  }
+
+  /* Hide the tooltip on small screens to prevent wobble/overflow */
+  .tooltip {
+    display: none;
+    opacity: 0;
+  }
+
+  /* Adjust help icon position for centered stacked layout */
+  .help {
+    position: static;
+  }
+
+  .container {
+    width: 90%;
+    margin-top: 15px;
+  }
+}
+
+@media (max-width: 600px) {
+  .mode-selector {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    gap: 8px;
+    width: 90%;
+  }
+
+  .mode {
+    padding: 6px 10px;
+    font-size: 13px;
+  }
+
+  textarea {
+    min-height: 120px;
+    margin-top: 10%;
+  }
+
+  .craft-btn {
+    width: 60%;
+    font-size: 16px;
+    padding: 10px 30px;
+  }
+}

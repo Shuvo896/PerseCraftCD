@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FIRST & FOLLOW Calculator</title>
+</head>
+<body>
+
+    <h2>FIRST & FOLLOW Calculator (Browser JS)</h2>
+
+    <p>Enter grammar productions (one per line). Use a single uppercase letter for non-terminals, 
+        space-separated symbols on the RHS, and <strong>eps</strong> for epsilon.</p>
+
+    <textarea id="inputBox" rows="10" cols="60" placeholder="Example:
+S -> A B
+A -> a | eps
+B -> b | eps
+END"></textarea>
+    <br><br>
+
+    <button onclick="runFirstFollowCalculator()">Run</button>
+
+    <h3>Output:</h3>
+    <pre id="outputBox"></pre>
+
+<script>
+/* -------------------------------
+   FIRST & FOLLOW CALCULATOR
+   Matches your Left Factoring style
+   - Single uppercase-letter nonterminals
+   - Space-separated symbols
+   - Epsilon = eps
+-------------------------------- */
+
+function parseGrammar(grammarStr) {
+    const grammar = {};
+    const lines = grammarStr.split(/\r?\n/);
+
+    for (let raw of lines) {
+        const line = raw.trim();
+        if (line === "" || line.toUpperCase() === "END") continue;
+
+        const arrow = line.indexOf("->");
+        if (arrow === -1) throw "Missing '->' in: " + line;
+
+        const lhs = line.slice(0, arrow).trim();
+        const rhsText = line.slice(arrow + 2).trim();
+
+        if (!/^[A-Z]$/.test(lhs))
+            throw "LHS must be a single uppercase letter (A-Z): " + lhs;
+
+        const rhsParts = rhsText.split("|").map(s => s.trim());
+        if (rhsParts.length === 0) throw "No RHS alternatives in: " + line;
+
+        grammar[lhs] = rhsParts;
+    }
+
+    return grammar;
+}
+
+function computeFirstAndFollowSets(grammarStr) {
+    const productions = parseGrammar(grammarStr);
+    const nonTerminals = Object.keys(productions);
+    const startSymbol = nonTerminals[0];
+
+    const FIRST = {};
+    const FOLLOW = {};
+
+    nonTerminals.forEach(nt => {
+        FIRST[nt] = new Set();
+        FOLLOW[nt] = new Set();
+    });
+
+    FOLLOW[startSymbol].add("$");
+
+    function isTerminal(sym) {
+        return !nonTerminals.includes(sym) && sym !== "eps";
+    }
+
+    function firstOfSymbol(sym) {
+        if (sym === "eps") return new Set(["eps"]);
+        if (isTerminal(sym)) return new Set([sym]);
+        return new Set(FIRST[sym]);
+    }
+
+    function firstOfSequence(symbols) {
+        if (symbols.length === 0) return new Set(["eps"]);
+
+        const result = new Set();
+        let allEps = true;
+
+        for (let sym of symbols) {
+            const f = firstOfSymbol(sym);
+
+            f.forEach(x => {
+                if (x !== "eps") result.add(x);
+            });
+
+            if (!f.has("eps")) {
+                allEps = false;
+                break;
+            }
+        }
+
+        if (allEps) result.add("eps");
+        return result;
+    }
+
+    // --- FIRST sets ---
+    let changed = true;
+    while (changed) {
+        changed = false;
+
+        for (const A of nonTerminals) {
+            for (const rhs of productions[A]) {
+                const symbols = rhs.split(" ").filter(Boolean);
+                const before = FIRST[A].size;
+
+                const seqFirst = firstOfSequence(symbols);
+                seqFirst.forEach(x => FIRST[A].add(x));
+
+                if (FIRST[A].size > before) changed = true;
+            }
+        }
+    }
+
+    // --- FOLLOW sets ---
+    changed = true;
+    let iterations = 0;
+    const MAX = 1000;
+
+    while (changed && iterations < MAX) {
+        iterations++;
+        changed = false;
+
+        for (const A of nonTerminals) {
+            for (const rhs of productions[A]) {
+                const symbols = rhs.split(" ").filter(Boolean);
+
+                for (let i = 0; i < symbols.length; i++) {
+                    const B = symbols[i];
+                    if (!nonTerminals.includes(B)) continue;
+
+                    const beta = symbols.slice(i + 1);
+                    const firstBeta = firstOfSequence(beta);
+
+                    const before = FOLLOW[B].size;
+
+                    firstBeta.forEach(x => {
+                        if (x !== "eps") FOLLOW[B].add(x);
+                    });
+
+                    if (beta.length === 0 || firstBeta.has("eps")) {
+                        FOLLOW[A].forEach(x => FOLLOW[B].add(x));
+                    }
+
+                    if (FOLLOW[B].size > before) changed = true;
+                }
+            }
+        }
+    }
+
+    // Output formatting
+    const result = {
+        FIRST: {},
+        FOLLOW: {},
+        productions
+    };
+
+    nonTerminals.forEach(nt => {
+        result.FIRST[nt] = Array.from(FIRST[nt]).sort();
+        result.FOLLOW[nt] = Array.from(FOLLOW[nt]).sort();
+    });
+
+    return result;
+}
+
+// UI wrapper
+function runFirstFollowCalculator() {
+    const input = document.getElementById("inputBox").value;
+    const out = document.getElementById("outputBox");
+
+    try {
+        const res = computeFirstAndFollowSets(input);
+
+        let txt = "Productions:\n";
+        for (const A in res.productions) {
+            txt += A + " -> " + res.productions[A].join(" | ") + "\n";
+        }
+
+        txt += "\nFIRST sets:\n";
+        for (const A in res.FIRST) {
+            txt += `FIRST(${A}) = { ${res.FIRST[A].join(", ")} }\n`;
+        }
+
+        txt += "\nFOLLOW sets:\n";
+        for (const A in res.FOLLOW) {
+            txt += `FOLLOW(${A}) = { ${res.FOLLOW[A].join(", ")} }\n`;
+        }
+
+        out.textContent = txt;
+    } catch (err) {
+        out.textContent = "Error: " + err;
+    }
+}
+</script>
+
+</body>
+</html>
