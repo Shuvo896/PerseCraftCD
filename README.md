@@ -53,4 +53,117 @@ PerseCraft provides **three essential compiler grammar operations** in one inter
 **No installation required!** Pure vanilla JavaScript.
 
 ## 📝 **Input Format**
+Enter rules ONE PER LINE. End with empty line or "END"
 
+Left Recursion: NO SPACES → E→E+T|T
+Left Factoring & FIRST/FOLLOW: Spaces OK → E → E + T | T
+
+LHS: Single uppercase (A-Z)
+Epsilon: eps or ϵ
+Terminals: lowercase (a,b,id,+)
+Non-terminals: uppercase (A-Z)
+
+text
+
+## 🎯 **Example Usage**
+
+### **Input (Left Recursion)**
+E→E+T|T
+T→T*F|F
+F→(E)|id
+END
+
+text
+
+### **Output**
+E → T X1
+X1 → +T X1 | ϵ
+T → F X2
+X2 → *F X2 | ϵ
+F → (E) | id
+
+text
+
+## 🛠 **File Structure**
+
+PerseCraft/
+├── index.html # Main UI
+├── about.html # Team & About page
+├── styles.css # Core styling
+├── about.css # About page styling
+├── lr.js # Left Recursion Elimination
+├── lf.js # Left Factoring
+├── fftable.js # FIRST/FOLLOW computation
+├── index.js # Mode switching & controller
+└── images/
+├── logo.png
+└── member1-5.jpg # Team photos
+
+text
+
+## 👥 **Team**
+
+Built by **CSE students** from Bangladesh as an academic project:
+
+| Name | ID | Role |
+|------|----|------|
+| Md Ashraful Alam Shuvo | 232-15-896 | Project Manager & Designer |
+| Md Jubaer Al Mahmud | 232-15-871 | FIRST/FOLLOW Logic |
+| Rizone Ahmed Nibir | 232-15-908 | Left Factoring Logic |
+| Mahfuzur Rahman | 232-15-903 | Left Recursion Logic |
+| Md Abdul Kaiyum | 232-15-915 | Deployment & Operations |
+
+## 🎓 **Academic Context**
+
+This tool implements core algorithms from **Compilers Principles** (Dragon Book):
+- **Algorithm 4.2**: Left Recursion Elimination
+- **Algorithm 4.3**: Left Factoring  
+- **FIRST/FOLLOW Computation** for LL(1) parsing tables
+
+## 🔧 **Features**
+
+- ✅ **Pure vanilla JS** - No frameworks
+- ✅ **Mobile responsive** design
+- ✅ **Handles direct/indirect recursion**
+- ✅ **Real-time grammar validation**
+- ✅ **Copy-paste friendly** examples
+- ✅ **Dark theme** UI
+- ✅ **Mode switching** without page reload
+
+## 📱 **Browser Support**
+
+| Browser | Status |
+|---------|--------|
+| Chrome 80+ | ✅ Full |
+| Firefox 75+ | ✅ Full |
+| Safari 13+ | ✅ Full |
+| Edge 80+ | ✅ Full |
+
+## ⚡ **Limitations**
+
+- Single non-terminal per line (A→...)
+- Max 10 non-terminals recommended
+- No grammar cycle detection
+- Educational focus (not production parser generator)
+
+## 🤝 **Contributing**
+
+1. Fork the repo
+2. Create feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push (`git push origin feature/AmazingFeature`)
+5. Open Pull Request
+
+## 📄 **License**
+
+This project is [MIT licensed](LICENSE).
+
+## 🙏 **Acknowledgments**
+
+- Built for **CSE coursework** on Compiler Design
+- Icons and inspiration from academic compiler resources
+- Thanks to all students struggling with grammar transformations!
+
+---
+
+**⭐ Star this repo if it helps your compiler studies!**
