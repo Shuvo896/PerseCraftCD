@@ -13,7 +13,6 @@
       </div>
 
       <!-- New About link on the right side of navbar -->
-      
     </div>
 
     <div class="mode-selector">
@@ -23,27 +22,51 @@
       <span class="divider"></span>
       <button class="mode" id="mode-lf">Left Factoring</button>
       <span class="divider"></span>
+
       <button class="mode" id="mode-ff">First & Follow Set</button>
-      <div class="help">
-        <span class="help-icon">?</span>
-        <div class="tooltip">
-          Input grammar rules one per line.<br />
-          Use format: <strong>A->aB|c</strong> (no spaces around
-          <code>-></code> or <code>|</code>) for Left Recursion mode.<br />
-          For Left Factoring and First & Follow modes, spaces around
-          <code>-></code> and <code>|</code> are allowed.<br />
-          LHS must be a single uppercase letter (A-Z). Use <code>eps</code> for
-          epsilon (empty string).<br />
-          Example:<br />
-          <code>S->Sa|b</code> (Left Recursion)<br />
-          <code>A -> aB | aC | b</code> (Left Factoring)<br />
-          <code>S -> A B | C</code> (First &amp; Follow)
-        </div>
-        <div class="mode">
-        <a href="about.html" style="color: #ffffff; text-decoration: none; font-size: 14px;">
+      <span class="divider"></span>
+      <div class="mode">
+        <a
+          href="about.html"
+          style="color: #ffffff; text-decoration: none; font-size: 14px"
+        >
           About Us
         </a>
       </div>
+      <div class="help">
+        <span class="help-icon">?</span>
+        <div class="tooltip">
+          Enter grammar rules <strong>one per line</strong>.<br />
+          <br />
+          <strong>Quick Format Guide:</strong><br />
+          <span style="color: #c35b00">• LHS:</span> Single uppercase letter
+          <code>(A-Z)</code><br />
+          <span style="color: #c35b00">• Epsilon:</span> <code>eps</code> or
+          <code>ϵ</code><br />
+          <span style="color: #c35b00">• Terminals:</span> lowercase
+          <code>(a,b,id,+)</code><br />
+          <span style="color: #c35b00">• Non-terminals:</span> uppercase
+          <code>(A-Z)</code><br />
+          <br />
+          <strong>Mode-Specific Rules:</strong><br />
+          <span style="color: #ff6b35">Left Recursion:</span>
+          <strong>No spaces</strong> → <code>E→E+T|T</code><br />
+          <span style="color: #4ecdc4">Left Factoring & FIRST/FOLLOW:</span>
+          Spaces OK → <code>E → E + T | T</code><br />
+          <br />
+          <strong>Real Examples:</strong><br />
+          <code
+            ><span style="color: #c35b00">E→E+T|T</span> (Left Recursion)</code
+          ><br />
+          <code
+            ><span style="color: #4ecdc4">A→aB|aC|b</span> (Left
+            Factoring)</code
+          ><br />
+          <code><span style="color: #45b7d1">S→AB|C</span> (FIRST/FOLLOW)</code
+          ><br />
+          <br />
+          <strong>End input with:</strong> Empty line or <code>END</code>
+        </div>
       </div>
     </div>
 
