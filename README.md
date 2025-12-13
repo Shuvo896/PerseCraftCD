@@ -154,9 +154,6 @@ This tool implements core algorithms from **Compilers Principles** (Dragon Book)
 4. Push (`git push origin feature/AmazingFeature`)
 5. Open Pull Request
 
-## 📄 **License**
-
-This project is [MIT licensed](LICENSE).
 
 ## 🙏 **Acknowledgments**
 
