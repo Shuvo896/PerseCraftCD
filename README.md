@@ -134,10 +134,10 @@ This tool implements core algorithms from **Compilers Principles** (Dragon Book)
 
 | Browser | Status |
 |---------|--------|
-| Chrome 80+ | ✅ Full |
-| Firefox 75+ | ✅ Full |
-| Safari 13+ | ✅ Full |
-| Edge 80+ | ✅ Full |
+| Chrome | ✅ Full |
+| Firefox | ✅ Full |
+| Safari | ✅ Full |
+| Edge | ✅ Full |
 
 ## ⚡ **Limitations**
 
@@ -145,15 +145,6 @@ This tool implements core algorithms from **Compilers Principles** (Dragon Book)
 - Max 10 non-terminals recommended
 - No grammar cycle detection
 - Educational focus (not production parser generator)
-
-## 🤝 **Contributing**
-
-1. Fork the repo
-2. Create feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push (`git push origin feature/AmazingFeature`)
-5. Open Pull Request
-
 
 ## 🙏 **Acknowledgments**
 
