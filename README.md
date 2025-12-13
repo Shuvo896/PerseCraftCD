@@ -23,11 +23,8 @@ PerseCraft provides **three essential compiler grammar operations** in one inter
 
 **No installation required!** Pure vanilla JavaScript.
 
-## 📝 **Input Format**
-
 # PerseCraft
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Made with JavaScript](https://img.shields.io/badge/Made%20with-JavaScript-1f425f.svg)](https://javascript.com)
 
 A lightweight **web-based toolkit** for **compiler design students** and developers to experiment with **context-free grammar transformations** and **parsing table construction**.
